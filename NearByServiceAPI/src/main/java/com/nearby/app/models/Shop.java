@@ -7,7 +7,7 @@ public class Shop {
 	private Address address;
 	private double latitude;
 	private double longitude;
-
+	
 	public long getId() {
 		return id;
 	}
