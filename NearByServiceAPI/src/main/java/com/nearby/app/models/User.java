@@ -2,19 +2,30 @@ package com.nearby.app.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-
-import org.springframework.data.annotation.Id;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class User {
  	@Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int userId;
     private String username;
     private String password;
     private boolean enabled;
     private String role;
 
+    public User(){
+
+    }
+
+    public User(String username, String password){
+    	this.username = username;
+    	this.password = password;
+    	this.enabled = true;
+    	this.role = "Admin";
+    }
+    
 	public int getUserId() {
 		return userId;
 	}
