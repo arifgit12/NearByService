@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nearby.app.models.Role;
 import com.nearby.app.models.User;
+import com.nearby.app.repository.RoleRepository;
 import com.nearby.app.services.UserService;
 
 @RestController
@@ -21,6 +23,9 @@ public class UsersController {
 
 	@Autowired
     private UserService userService;
+
+	@Autowired
+	private RoleRepository roleService;
 
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	@ResponseBody
@@ -50,9 +55,33 @@ public class UsersController {
 		User user = userService.save(model);
 
 		if(user == null ){
-			return(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+			return(new ResponseEntity<>("Unable to Register", HttpStatus.OK));
 		}
 		return(new ResponseEntity<>(user, HttpStatus.OK));
+	}
+
+	@RequestMapping(value="/addRole", method=RequestMethod.POST)
+	public ResponseEntity<?> addRole(@RequestBody Role model){
+
+		Role role = roleService.save(model);
+
+		if(role == null ){
+			return (new ResponseEntity<>("Unable to Save", HttpStatus.OK));
+		}
+
+		return (new ResponseEntity<>(role, HttpStatus.OK));
+	}
+
+	@RequestMapping(value="/roles", method=RequestMethod.GET)
+	public ResponseEntity<?> getRoles(){
+
+		List<Role> roles = roleService.findAll();
+
+		if(roles == null ){
+			return (new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		}
+
+		return (new ResponseEntity<>(roles, HttpStatus.OK));
 	}
 
 }

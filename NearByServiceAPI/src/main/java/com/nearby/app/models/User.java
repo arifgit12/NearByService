@@ -1,43 +1,44 @@
 package com.nearby.app.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class User {
- 	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int userId;
+@Table(name = "user")
+public class User implements Serializable{
+
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	private Long id;
     private String username;
     private String password;
-    private boolean enabled;
-    private String role;
+    private String passwordConfirm;
 
-    public User(){
+    @JsonIgnore
+    private Set<Role> roles;
 
-    }
+    public User(){}
 
-    public User(String username, String password){
+	public User(String username, String password){
     	this.username = username;
     	this.password = password;
-    	this.enabled = true;
-    	this.role = "Admin";
     }
 
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 	public String getUsername() {
 		return username;
@@ -51,11 +52,22 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isEnabled() {
-		return enabled;
+
+	public String getPasswordConfirm() {
+		return passwordConfirm;
 	}
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
-    
+
+	@ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }
