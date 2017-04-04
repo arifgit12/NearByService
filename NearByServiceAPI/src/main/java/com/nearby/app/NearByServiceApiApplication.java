@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.nearby.app.models.User;
 import com.nearby.app.repository.UserRepository;
 
 @SpringBootApplication
