@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class User {
  	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int userId;
     private String username;
     private String password;
@@ -25,7 +25,7 @@ public class User {
     	this.enabled = true;
     	this.role = "Admin";
     }
-    
+
 	public int getUserId() {
 		return userId;
 	}
@@ -38,6 +38,7 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 	public String getUsername() {
 		return username;
 	}
